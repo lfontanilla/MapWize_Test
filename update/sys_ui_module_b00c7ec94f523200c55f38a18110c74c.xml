@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_ui_module">
+    <sys_ui_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="MapWize">1079fa894f523200c55f38a18110c75f</application>
+        <filter/>
+        <name>MapName</name>
+        <order>100</order>
+        <path>view/x_118724_indoormap_indoor_mobile</path>
+        <path_relative_to_root>false</path_relative_to_root>
+        <roles/>
+        <sys_class_name>sys_ui_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-04-21 18:39:58</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>b00c7ec94f523200c55f38a18110c74c</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>MapName</sys_name>
+        <sys_package display_value="IndoorMap Integration" source="x_118724_indoormap">ad8d46f84f923200c55f38a18110c7a0</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="IndoorMap Integration">ad8d46f84f923200c55f38a18110c7a0</sys_scope>
+        <sys_update_name>sys_ui_module_b00c7ec94f523200c55f38a18110c74c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-21 18:52:01</sys_updated_on>
+        <table/>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+    </sys_ui_module>
+</record_update>
