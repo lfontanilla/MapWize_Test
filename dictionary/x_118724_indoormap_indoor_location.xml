@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="indoor location" max_length="40" name="x_118724_indoormap_indoor_location" type="collection">
+        <element label="Id Place" max_length="200" name="id_place" type="string"/>
+        <element display="true" label="Name Place" max_length="100" name="name_place" type="string"/>
+    </element>
+</database>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var ga = new GlideAjax('MapWizeAjaxHelper');
+ga.addParam('sysparm_name','getMapwizeIntegrationParams');
+
+ga.getXML(MapwizeParse);
+
+function MapwizeParse(response) {
+	var answer = response.responseXML.documentElement.getAttribute("answer");
+	var result = JSON.parse(answer);
+	
+	
+	var apikey = result.apikey;
+	var accesskey = result.accesskey;
+	var topleftlat = result.topleftlat;
+	var topleftlong = result.topleftlong;
+	var bottomrightlat = result.bottomrightlat;
+	var bottomrightlong = result.bottomrightlong;
+	var applicationname = result.applicationname;
+	
+	//Create the map
+	//use maxBounds to limit the visible area
+	var map = Mapwize.map('map', {
+		apiKey: apikey,
+		accessKey: accesskey
+	}, function () {
+		var reference = applicationname+"_mapwize";
+		var place = g_form.getReference(reference, processPlace);
+		function processPlace(place) {
+			
+			if(place.id_place != undefined && result.current_place_id != '')
+				{
+					map.addMarker({placeId:place.id_place});
+					map.addMarker({placeId:result.current_place_id});
+					map.showDirections({placeId:place.id_place},{placeId:result.current_place_id}, null, function (){});
+					map.centerOnPlace(place.id_place);
+					
+				}
+				else
+					{
+					alert('Both users must have indoor locations assinged for route drawing to work.');
+					GlideDialogWindow.get().destroy();
+				}
+			}
+		});
+	
+} // End function MapwizeParse]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_118724_indoormap_UserSetRoute.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<link href="5d0c8af84f923200c55f38a18110c740.cssdbx" rel="stylesheet" type="text/css"></link>
+	<script src ="mapwizeAll.jsdbx" type="text/javascript"></script>
+	<style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position:relative; top:10px; bottom:50px; width:400px;
+            height: 200px;
+        }		
+    </style>	
+	<div id="map"></div>		
+</j:jelly>]]></html>
+        <name>UserSetRoute</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-04-21 20:24:10</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>018017854f923200c55f38a18110c713</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_name>UserSetRoute</sys_name>
+        <sys_package display_value="IndoorMap Integration" source="x_118724_indoormap">ad8d46f84f923200c55f38a18110c7a0</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="IndoorMap Integration">ad8d46f84f923200c55f38a18110c7a0</sys_scope>
+        <sys_update_name>sys_ui_page_018017854f923200c55f38a18110c713</sys_update_name>
+        <sys_updated_by>abel.tuter</sys_updated_by>
+        <sys_updated_on>2017-04-24 16:14:59</sys_updated_on>
+    </sys_ui_page>
+</record_update>
