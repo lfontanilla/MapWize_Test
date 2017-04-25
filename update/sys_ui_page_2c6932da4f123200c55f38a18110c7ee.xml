@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var ga = new GlideAjax('MapWizeAjaxHelper');
+ga.addParam('sysparm_name','getMapwizeIntegrationParams');
+ga.getXML(MapwizeParse);
+
+function MapwizeParse(response) {
+	var answer = response.responseXML.documentElement.getAttribute("answer");
+	var result = JSON.parse(answer);
+	
+	var apikey = result.apikey;
+	var accesskey = result.accesskey;
+	var topleftlat = result.topleftlat;
+	var topleftlong = result.topleftlong;
+	var bottomrightlat = result.bottomrightlat;
+	var bottomrightlong = result.bottomrightlong;
+	var centerplace =  result.defaultcenterplace;
+	var applicationname = result.applicationname;
+	//Create the map
+	//use maxBounds to limit the visible area
+	var map = Mapwize.map('map', {
+		apiKey: apikey,
+		accessKey: accesskey
+	}, function () {
+		var reference = applicationname +"_indoor_location";
+		var place = g_form.getReference(reference, processPlace);
+		function processPlace(place)
+		{
+			if(place.id_place != undefined)
+				{
+					map.addMarker({placeId:place.id_place});
+					map.centerOnPlace(place.id_place);
+					
+				}
+				else
+					{
+					//Define the bounds of the map
+					var bounds = new L.LatLngBounds(
+					new L.LatLng(topleftlat, topleftlong),
+					new L.LatLng(bottomrightlat, bottomrightlong)
+					);
+					map.fitBounds(bounds);
+					map.centerOnPlace(centerplace);
+				}
+			}
+			
+		});
+		
+		
+		map.on('placeClick', function(e){
+			var table = applicationname+"_indoor_location";
+			var reference = applicationname +"_indoor_location";
+			var gr = new GlideRecord(table);
+			gr.addQuery('id_place', e.place._id);
+			gr.query();
+			gr.next();
+			
+			g_form.setValue(reference, gr.sys_id);
+			GlideDialogWindow.get().destroy();
+		});
+		
+	} // End function MapwizeParse]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_118724_indoormap_MapWizeCI_app.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<link href="5d0c8af84f923200c55f38a18110c740.cssdbx" rel="stylesheet" type="text/css"></link>
+	<script src ="mapwizeAll.jsdbx" type="text/javascript"></script>
+	<style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position:relative; top:10px; bottom:50px; width:800px;
+            height: 500px;
+        }
+		
+
+    </style>
+	
+	<div id="map"></div>
+		
+</j:jelly>]]></html>
+        <name>MapWizeCI_app</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-04-25 15:49:21</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>2c6932da4f123200c55f38a18110c7ee</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>MapWizeCI_app</sys_name>
+        <sys_package display_value="IndoorMap Integration" source="x_118724_indoormap">ad8d46f84f923200c55f38a18110c7a0</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="IndoorMap Integration">ad8d46f84f923200c55f38a18110c7a0</sys_scope>
+        <sys_update_name>sys_ui_page_2c6932da4f123200c55f38a18110c7ee</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-25 16:04:37</sys_updated_on>
+    </sys_ui_page>
+</record_update>

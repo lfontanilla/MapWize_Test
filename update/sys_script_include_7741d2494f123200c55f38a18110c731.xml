@@ -11,6 +11,7 @@
 MapWizeAjaxHelper.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 	getMapwizeIntegrationParams:function(){
 		var result = {};
+			gs.info('here 0 ','sserrano');
 			result.apikey = gs.getProperty('x_118724_indoormap.routing.mapwize.apikey', 'd8718666af305f55890aea3cd17a3823');
 			result.accesskey = gs.getProperty('x_118724_indoormap.routing.mapwize.accesskey', 'hQv4I7nwIEHHFvJy');
 			result.topleftlat = gs.getProperty('x_118724_indoormap.routing.mapwize.bounds.topleft.lat', '11.002682');
@@ -19,6 +20,7 @@ MapWizeAjaxHelper.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 			result.bottomrightlong = gs.getProperty('x_118724_indoormap.routing.mapwize.bounds.bottomright.long', '-74.804306');
 			result.defaultcenterplace = gs.getProperty('x_118724_indoormap.routing.mapwize.defaultcenterplace', '58e7b607899e32001003e504');
 			result.applicationname = gs.getProperty('x_118724_indoormap.routing.mapwize.applicationname', 'x_118724_indoormap');
+			gs.info('here 1 ','sserrano');
 			
 			var current_place_id = '';
 			var usr = new GlideRecord('sys_user');
@@ -28,8 +30,26 @@ MapWizeAjaxHelper.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 				}
 				
 			}
-			
 			result.current_place_id = current_place_id;
+			gs.info('here 2 ','sserrano');
+			var assigned_to_place_id = '';
+			if(usr.get(this.getParameter('sysparm_assigned_to_sys_id'))){
+				if(!usr.x_118724_indoormap_mapwize.nil()){
+					assigned_to_place_id = usr.x_118724_indoormap_mapwize.id_place.toString();
+				}
+			}
+			result.current_assigned_to_place_id = assigned_to_place_id;
+			
+			var cmdb_place_id = '';
+			var cmdb = new GlideRecord('cmdb_ci');
+			gs.info('here 3 '+this.getParameter('sysparm_cmdbci_sys_id'),'sserrano');
+			if(cmdb.get(this.getParameter('sysparm_cmdbci_sys_id'))){
+				if(!cmdb.x_118724_indoormap_indoor_location.nil()){
+					cmdb_place_id = cmdb.x_118724_indoormap_indoor_location.id_place.toString();
+				}
+			}
+			gs.info('here 4, cmdb_place_id: '+cmdb_place_id,'sserrano');
+			result.current_cmdbci_place_id = cmdb_place_id;
 			
 			var res = new global.JSON().encode(result); // convert object to JSON string
 			return res;
@@ -42,14 +62,14 @@ MapWizeAjaxHelper.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
         <sys_created_on>2017-04-21 15:37:25</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>7741d2494f123200c55f38a18110c731</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>19</sys_mod_count>
         <sys_name>MapWizeAjaxHelper</sys_name>
         <sys_package display_value="IndoorMap Integration" source="x_118724_indoormap">ad8d46f84f923200c55f38a18110c7a0</sys_package>
         <sys_policy>read</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="IndoorMap Integration">ad8d46f84f923200c55f38a18110c7a0</sys_scope>
         <sys_update_name>sys_script_include_7741d2494f123200c55f38a18110c731</sys_update_name>
-        <sys_updated_by>abel.tuter</sys_updated_by>
-        <sys_updated_on>2017-04-24 16:13:19</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-25 17:19:02</sys_updated_on>
     </sys_script_include>
 </record_update>
